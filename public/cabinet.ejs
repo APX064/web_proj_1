@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="scripts/jquery-3.7.1.js"></script>
+	<script src="scripts/log-reg.js"></script>
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Кабинет</title>
+	<%- include("views/menu.ejs") %>
+</head>
+<body>
+	<!-- <h1>Кабинет</h1> -->
+	<% if (logginedin == true) { %>
+		<div class="logined" id="logined">
+		<% if (role == 'USER') { %>
+			<div id="userCab" class="userCab">
+				<h1>Кабинет Пользователя</h1>
+			</div>
+		<% } else if (role == 'ADMIN'){ %>
+		<div id="adminCab" class="adminCab">
+			<h1>Кабинет Админа</h1>
+			<button class="admBut" value="Кабинет админа"><a href="admin">Кабинет админа</a></button>
+			<button class="admBut" value="Редактор учётных записей"><a href="users">Редактор учётных записей</a></button>
+		<% } %>
+		</div>
+		<div id="user-interface" class="user-interface">
+			<button class="allBut" value="Заказы"><a href="orders">Заказы</a></button>
+		
+		<form action="/exit" method="post">
+			<input class="exBut" type="submit" value="Выход">
+		</form>
+		</div>
+		</div>	
+	<% } else { %>
+	<div>
+		<div id="reg" class="reg_div">
+			<form action="/reg" method="post">
+				<input type="text" name="username" placeholder="Username" id="reg_username" required>
+				<br>
+				<input type="password" name="password" placeholder="Password" id="reg_password" required>
+				<br>
+				<input type="text" name="email" placeholder="E-mail" id="reg_email" required>
+				<br>
+				<input type="submit" value="Зарегистрироваться" id="reg_but" disabled>
+				<br>
+			</form>
+			<button id="ans_log_btn" class="reg_ans_btn">Авторизация</button>
+		</div>
+		<div id="login" class="log_div">
+			<% if (msg != "") { %>
+			<div class="messageContainer">
+				<div class="errorMessage">
+					<strong>Сообщение:</strong><%=msg %>
+				</div>
+				<script>
+					setTimeout(function() {
+					  document.querySelector('.messageContainer').style.display = 'none';
+					}, 5000);
+				  </script>
+			</div>
+			<% } %>
+			<form action="/login" method="post">
+				<input type="text" name="username" placeholder="Username" id="log_username" required>
+				</br>
+				<input type="password" name="password" placeholder="Password" id="log_password" required>
+				</br>
+				<input type="submit" value="Войти" id="log_but" disabled>
+				</br>
+			</form>
+			<button id="ans_reg_btn" class="log_ans_btn">Регистрация</button>
+		</div>		
+	</div>
+	<% } %>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>

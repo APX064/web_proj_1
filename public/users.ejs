@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="scripts/jquery-3.7.1.js"></script>
+    <script src="scripts/users.js"></script>
+    
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Торты</title>
+	<%- include("views/menu.ejs") %>
+</head>
+<body>
+    <div class="messageContainer">
+        <% if (messages.error) { %>
+        <div class="errorMessage">
+            <strong>Сообщение:</strong> <%= messages.error %>
+        </div>
+        <script>
+            setTimeout(function() {
+              document.querySelector('.messageContainer').style.display = 'none';
+            }, 5000);
+          </script>
+        <% } %>
+    </div>
+    <div id="selection" class="selection">
+        <button class="addButton" id="addButton">Добавить пользователя</button>
+        <button class="addButton" id="selectionButton">Изменить/удалить учётную запись</button>
+    </div>
+    <div id="changing" class="toggleBox">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Логин</th>
+                    <th>Почта</th>
+                    <th>Роль</th>
+                    <th colspan="2">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(row => { %>
+                <tr>
+                    <td><%= row.login %></td>
+                    <td><%= row.email %></td>
+                    <td><% if (row.role == 'ADMIN') { %>Администратор<% } else { %>Пользователь<% } %></td>
+                    <td><button id="btn_update" data-id = "<%= row.id %>" data-login = "<%= row.login %>" data-email = "<%= row.email %>" data-role = "<%= row.role %>">Изменить</button></td>
+                    <td><form action="/delUserField" method="post"><input type="hidden" name="delId" id="delId" value="<%= row.id %>"><button id="delBtn">Удалить</button></form></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <div class="addForm">
+        <table align="center">
+            <form action="/addUserForm" method="post">
+                <tr>
+                    <td>Логин</td>
+                    <td><input type="text" name="addUsername" id="addUsername"></td>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td><input type="text" name="addPassword" id="addPassword"></td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td><input type="text" name="addEmail" id="addEmail"></td>
+                </tr>
+                <tr>
+                    <td>Роль</td>
+                    <td>
+                        <select id="addRole" name="addRole">
+                            <option value="ADMIN">Администратор</option>
+                            <option value="USER">Пользователь</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                <td><button id="addFinButton">Добавить</button></td>
+                </tr>
+            </form>
+            <button id="closeAddButton">Закрыть</button>
+        </table>
+    </div>
+
+    <div class="updateForm">
+        <table align="center">
+            <form action="/updUserForm" method="post">
+                <tr>
+                    <td></td>
+                    <td><input type="hidden" name="id" id="updId"></td>
+                </tr>
+                <tr>
+                    <td>Логин</td>
+                    <td><input type="text" name="updUsername" id="updUsername"></td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td><input type="text" name="updEmail" id="updEmail"></td>
+                </tr>
+                <tr>
+                    <td>Роль</td>
+                    <td>
+                        <select id="updRole" name="updRole">
+                            <option value="ADMIN">Администратор</option>
+                            <option value="USER">Пользователь</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                <td><button id="updFinButton">Изменить</button></td>
+                </tr>
+            </form>
+            <button id="closeUpdButton">Закрыть</button>
+        </table>
+    </div>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>
+<script src="scripts/preview.js"></script>

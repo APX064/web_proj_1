@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Контактная информация</title>
+	<%- include("views/menu.ejs") %>
+</head>
+<body>
+	<h1>Заказы</h1>
+	<div>
+		<h1><%=cakeInfo.cake_name %></h1>
+    	<p>Type: <%=cakeInfo.cake_type %></p>
+    	<p>Info: <%=cakeInfo.cake_info %></p>
+    	<p>Price: <%=cakeInfo.cake_price %></p>
+    	<button class="add-to-cart" data-cake-id="<%=cakeInfo.cake_id %>">Add to cart</button>
+	</div>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>

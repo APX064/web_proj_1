@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Главная</title>
+	<script src="scripts/jquery-3.7.1.js"></script>
+  	<script src="scripts/main.js"></script>
+	<script src="scripts/cart.js"></script>
+	<script src="scripts/item.js"></script>
+</head>
+<body>
+	<%- include("views/menu.ejs") %>
+	<div id="inofBox" class="inofBox">
+		<p>Описание: Магазин тортиков предлагает широкий выбор тортиков, приготовленных с любовью и свежими ингредиентами. Мы рады предложить вам возможность заказать свои любимые тортики и насладиться их вкусом в комфортных условиях дома.</p>
+		<p>Преимущества:</p>
+		<ul>
+			<li>Качественные ингредиенты и традиционные рецепты для приготовления тортиков</li>
+			<li>Возможность выбора из широкого ассортимента тортиков</li>
+			<li>Возможность заказать тортики в любое время суток</li>
+    	</ul>
+		<button id="closeInfoBox" class="closeInfoBox">Убрать информацию</button>
+	</div>
+	<div id="cataloge" class="cataloge">
+        <table id="catalog-table" class="main_table">
+            <thead>
+                <tr>
+                    <th>Картинка</th>
+					<th>Название</th>
+					<th>Тип</th>
+					<!-- <th>Состав</th> -->
+					<th>Цена</th>
+					<th colspan="2">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(row => { %>
+                <tr>
+					<td hidden><%= row.cake_id %></td> 
+
+					<td data-cake-id="<%= row.cake_id %>"><img class="img" src="/images/<%= row.cake_id %>.jpg"></td>
+					<td data-cake-id="<%= row.cake_id %>"><%= row.cake_name %></td>
+					<td data-cake-id="<%= row.cake_id %>"><%= row.cake_type %></td>
+					<!-- <td data-cake-id="<%= row.cake_id %>"><%= row.cake_info %></td> -->
+					<td data-cake-id="<%= row.cake_id %>"><%= row.cake_price %></td>
+                    <td>
+						<input type="number" min="1" value="1" data-cake-id="<%= row.cake_id %>" class="quantity">
+						<button class="add-to-cart" data-cake-id="<%= row.cake_id %>">Добавить в корзину</button>
+					</td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+	<div class="sortContainer">
+		<div id="sorting" class="sorting">
+			<label>Сортировка</label>
+			<br>
+			По названию <button class="sortBut" data-column-index="2" data-order="asc">По возрастанию</button>
+			<br>
+			По типу <button class="sortBut" data-column-index="3" data-order="asc">По возрастанию</button>
+			<br>
+			По цене <button class="sortBut" data-column-index="4" data-order="asc">По возрастанию</button>
+			<br>
+		</div>
+		<div id="filtering" class="filtering">
+			<label>Фильтрация</label>
+			<br>
+			<input id="name-filter" class="name-filter" type="text" placeholder="Найти товар по названию">
+			<br>
+			<input type="checkbox" class="sortBut" value="Бисквитный"> Бисквитный
+			<br>
+			<input type="checkbox" class="sortBut" value="Вафельный"> Вафельный
+			<br>
+			<input type="checkbox" class="sortBut" value="Чизкейк"> Чизкейк
+			<br>
+			<button id="resetBtn" class="sortBut">Сбросить</button>
+		</div>
+		<div id="cart-preview" class="cart-preview">
+			<label>Корзина</label>
+			<table>
+			<thead>
+				<tr>
+				<th>Удаление</th>
+				<th>Название</th>
+				<th>Цена</th>
+				<th>Количество</th>
+				<th>Всего</th>
+				</tr>
+			</thead>
+			<tbody id="cart-preview-body">
+			</tbody>
+			</table>
+			<label id="total-items-cost"></label>
+			<button id="confirm-cart" class="sortBut">Обормить заказ</button>
+		</div>
+	</div>
+	<div id="card" class="card_holder">
+		<div id="card_placeholder">
+			
+		</div>
+		<button id="close_card" class="sortBut">Закрыть</button>
+	</div>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>

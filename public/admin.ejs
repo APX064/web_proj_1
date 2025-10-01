@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="scripts/jquery-3.7.1.js"></script>
+    <script src="scripts/admin.js"></script>
+    
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Торты</title>
+	<%- include("views/menu.ejs") %>
+</head>
+<body>
+    <div class="messageContainer">
+        <% if (messages.error) { %>
+        <div class="errorMessage">
+            <strong>Сообщение:</strong> <%= messages.error %>
+        </div>
+        <script>
+            setTimeout(function() {
+              document.querySelector('.messageContainer').style.display = 'none';
+            }, 5000);
+          </script>
+        <% } %>
+    </div>
+    <div id="selection" class="selection">
+        <button class="addButton" id="addButton">Добавить новый товар</button>
+        <button class="addButton" id="selectionButton">Изменить</button>
+        <button class="addButton" id="deleteButton">Удалить</button>
+    </div>
+    <div id="deleting" class="toggleBox">
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Картинка</th>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Состав</th>
+                <th>Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(row => { %>
+                <tr>
+                <td><input type="checkbox" name="selectedRows[]" value="<%= row.cake_id %>" /></td>
+                <td><img class="img" src="/images/<%= row.cake_id %>.jpg"></td>
+                <td><%= row.cake_name %></td>
+                <td><%= row.cake_type %></td>
+                <td><%= row.cake_info %></td>
+                <td><%= row.cake_price %></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+        <button id="deleteSelected" class="deleteSelected">Удалить выбранные записи</button>
+    </div>
+
+    <div id="changing" class="toggleBox">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Картинка</th>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Состав</th>
+                    <th>Цена</th>
+                    <th colspan="2">Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(row => { %>
+                <tr>
+                    <td><img class="img" src="/images/<%= row.cake_id %>.jpg"></td>
+                    <td><%= row.cake_name %></td>
+                    <td><%= row.cake_type %></td>
+                    <td><%= row.cake_info %></td>
+                    <td><%= row.cake_price %></td>
+                    <td><button id="btn_update" data-id = "<%= row.cake_id %>" data-name = "<%= row.cake_name %>" data-type = "<%= row.cake_type %>" data-info = "<%= row.cake_info %>" data-price = "<%= row.cake_price %>">Изменить</button></td>
+                    <td><form action="/delField" method="post"><input type="hidden" name="delId" id="delId" value="<%= row.cake_id %>"><button id="delBtn">Удалить</button></form></td>
+                </tr>
+            <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <div class="addForm">
+        <table align="center">
+            <form action="/addField" method="post" enctype="multipart/form-data" id="addFormFields">
+                <tr>
+                    <td>Название</td>
+                    <td><input type="text" name="addName" id="addName"></td>
+                </tr>
+                <tr>
+                    <td>Тип</td>
+                    <td><select name="addType" id="addType">
+                        <option value="Чизкейк">Чизкейк</option>
+                        <option value="Бисквитный">Бисквитный</option>
+                        <option value="Вафельный">Вафельный</option>
+                    </select></td>
+                    <!-- <td><input type="text" name="addType" id="addType"></td> -->
+                </tr>
+                <tr>
+                    <td>Картинка</td>
+                    <td><input type="file" name="addImg" id="addImg" accept="image/*"></td>
+                    <td><div id="preview2">
+                        <img class="img">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td>Состав</td>
+                    <td><textarea name="addInfo" id="addInfo" rows="5" cols="33"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Цена</td>
+                    <td><input type="number" name="addPrice" id="addPrice" min=1 max=9999999></td>
+                </tr>
+                <tr>
+                <td><button id="addFinButton">Добавить</button></td>
+                </tr>
+            </form>
+            <tr><td><button id="closeAddButton">Закрыть</button></td></tr>
+        </table>
+    </div>
+
+    <div class="updateForm">
+        <table align="center">
+            <form action="/updField" method="post" enctype="multipart/form-data" id="updateFormFields">
+                <tr>
+                    <td></td>
+                    <td><input type="hidden" name="id" id="updId"></td>
+                </tr>
+                <tr>
+                    <td>Название</td>
+                    <td><input type="text" name="name" id="updName"></td>
+                </tr>
+                <tr>
+                    <td>Тип</td>
+                    <!-- <td><input type="text" name="type" id="updType"></td> -->
+                    <td><select name="type" id="updType">
+                        <option value="Чизкейк">Чизкейк</option>
+                        <option value="Бисквитный">Бисквитный</option>
+                        <option value="Вафельный">Вафельный</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Картинка</td>
+                    <td><input type="file" name="updImg" id="updImg" accept="image/*"></td>
+                    <td><div id="preview">
+                        <img class="img">
+                    </div></td>
+                </tr>
+                <tr>
+                    <td>Состав</td>
+                    <td><textarea name="info" id="updInfo" rows="5" cols="33"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Цена</td>
+                    <td><input type="number" name="price" id="updPrice" min=1 max=9999999></td>
+                </tr>
+                <tr>
+                    <td><button id="changeUpdButton">Изменить</button></td>
+                </tr>
+            </form>
+            <tr><td><button id="closeUpdButton">Закрыть</button></td></tr>
+        </table>
+    </div>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>
+<script src="scripts/preview.js"></script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="views/styles.css">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Контактная информация</title>
+	<%- include("views/menu.ejs") %>
+</head>
+<body>
+	<h1>Заказы</h1>
+	<div>
+		<table class="main_table">
+      <thead>
+        <tr>
+          <th>Название торта</th>
+          <th>Цена</th>
+          <th>Количество</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cart.forEach((item) => { %>
+          <tr>
+            <td><%= item.cake_name %></td>
+            <td><%= item.cake_price %></td>
+            <td><%= item.quantity %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+	</div>
+</body>
+</html>
+<%- include("views/copyright.ejs") %>
